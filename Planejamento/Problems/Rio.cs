@@ -30,48 +30,60 @@ namespace Planejamento.Problemas
             return recompensa;
         }
 
-        public static List<double[,]> ObterMatrizesDeTransicao()
+        public static List<double[][]> ObterMatrizesDeTransicao()
         {
-            double[,] transicaoNorte = new double[6, 6];
+            double[][] transicaoNorte = new double[6][];
 
-            transicaoNorte[0, 3] = 1;
-            transicaoNorte[1, 4] = 0.5;
-            transicaoNorte[1, 0] = 0.5;
-            transicaoNorte[2, 2] = 0; //absorvedor
-            transicaoNorte[3, 3] = 1;
-            transicaoNorte[4, 4] = 1;
-            transicaoNorte[5, 5] = 1;
+            for (int i = 0; i < 6; i++)
+                transicaoNorte[i] = new double[6];
 
-            double[,] transicaoLeste = new double[6, 6];
+            transicaoNorte[0][3] = 1;
+            transicaoNorte[1][4] = 0.5;
+            transicaoNorte[1][0] = 0.5;
+            transicaoNorte[2][2] = 0; //absorvedor
+            transicaoNorte[3][3] = 1;
+            transicaoNorte[4][4] = 1;
+            transicaoNorte[5][5] = 1;
 
-            transicaoLeste[0, 1] = 1;
-            transicaoLeste[1, 2] = 0.5;
-            transicaoLeste[1, 0] = 0.5;
-            transicaoLeste[2, 2] = 0; //absorvedor
-            transicaoLeste[3, 4] = 1;
-            transicaoLeste[4, 5] = 1;
-            transicaoLeste[5, 5] = 1;
+            double[][] transicaoLeste = new double[6][];
 
-            double[,] transicaoOeste = new double[6, 6];
+            for (int i = 0; i < 6; i++)
+                transicaoLeste[i] = new double[6];
 
-            transicaoOeste[0, 0] = 1;
-            transicaoOeste[1, 0] = 1;
-            transicaoOeste[2, 2] = 0; //absorvedor
-            transicaoOeste[3, 3] = 1;
-            transicaoOeste[4, 3] = 1;
-            transicaoOeste[5, 4] = 1;
+            transicaoLeste[0][1] = 1;
+            transicaoLeste[1][2] = 0.5;
+            transicaoLeste[1][0] = 0.5;
+            transicaoLeste[2][2] = 0; //absorvedor
+            transicaoLeste[3][4] = 1;
+            transicaoLeste[4][5] = 1;
+            transicaoLeste[5][5] = 1;
 
-            double[,] transicaoSul = new double[6, 6];
+            double[][] transicaoOeste = new double[6][];
 
-            transicaoSul[0, 0] = 1;
-            transicaoSul[1, 1] = 0.5;
-            transicaoSul[1, 0] = 0.5;
-            transicaoSul[2, 2] = 0; //absorvedor
-            transicaoSul[3, 0] = 1;
-            transicaoSul[4, 1] = 1;
-            transicaoSul[5, 2] = 1;
+            for (int i = 0; i < 6; i++)
+                transicaoOeste[i] = new double[6];
+
+            transicaoOeste[0][0] = 1;
+            transicaoOeste[1][0] = 1;
+            transicaoOeste[2][2] = 0; //absorvedor
+            transicaoOeste[3][3] = 1;
+            transicaoOeste[4][3] = 1;
+            transicaoOeste[5][4] = 1;
+
+            double[][] transicaoSul = new double[6][];
+
+            for (int i = 0; i < 6; i++)
+                transicaoSul[i] = new double[6];
+
+            transicaoSul[0][0] = 1;
+            transicaoSul[1][1] = 0.5;
+            transicaoSul[1][0] = 0.5;
+            transicaoSul[2][2] = 0; //absorvedor
+            transicaoSul[3][0] = 1;
+            transicaoSul[4][1] = 1;
+            transicaoSul[5][2] = 1;
                        
-            return new List<double[,]>
+            return new List<double[][]>
             {
                 transicaoNorte, transicaoSul, transicaoLeste, transicaoOeste
             };

@@ -4,25 +4,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Planejamento.Problems.Relatorio1.Ambiente1
+namespace Planejamento.Problems.Relatorio1.Ambiente2
 {
-    /* 15x9 - 1 floor */
-    static class Ambiente1
+    /* 15x9 - 11 floors */
+    static class Ambiente2
     {
         public static double[] ObterMatrizRecompensa(string basePath)
         {
-            var rewards = File.ReadAllLines(Path.Combine(basePath, "Ambiente1/Rewards.txt"), Encoding.UTF8);
+            var rewards = File.ReadAllLines(Path.Combine(basePath, "Ambiente2/Rewards.txt"), Encoding.UTF8);
             return rewards.Select(r => double.Parse(r)).ToArray();
         }
 
         public static List<double[][]> ObterMatrizesDeTransicao(string basePath, int qtdeEstados)
         {
-            var action01 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action01.txt"), qtdeEstados);
-            var action02 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action02.txt"), qtdeEstados);
-            var action03 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action03.txt"), qtdeEstados);
-            var action04 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action04.txt"), qtdeEstados);
-            var action05 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action05.txt"), qtdeEstados);
-            var action06 = ObterDoArquivo(Path.Combine(basePath, "Ambiente1/Action06.txt"), qtdeEstados);
+            var action01 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action01.txt"), qtdeEstados);
+            var action02 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action02.txt"), qtdeEstados);
+            var action03 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action03.txt"), qtdeEstados);
+            var action04 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action04.txt"), qtdeEstados);
+            var action05 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action05.txt"), qtdeEstados);
+            var action06 = ObterDoArquivo(Path.Combine(basePath, "Ambiente2/Action06.txt"), qtdeEstados);
 
             return new List<double[][]>
             {

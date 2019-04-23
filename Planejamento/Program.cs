@@ -1,6 +1,8 @@
 ﻿using Planejamento.Algoritmos;
 using Planejamento.Problemas;
 using Planejamento.Problems.Relatorio1.Ambiente1;
+using Planejamento.Problems.Relatorio1.Ambiente2;
+using Planejamento.Problems.Relatorio1.Ambiente3;
 using System;
 
 namespace Planejamento
@@ -10,74 +12,111 @@ namespace Planejamento
         
         static void Main(string[] args)
         {
-            var epsilon = 0.000000000000001;
-            double gama = 1;
+            try
+            {
+                var epsilon = 0.0000000001;
+                double gama = 0.9;
 
-            var relatorioBasePath = "../../../Problems/Relatorio1";
+                var relatorioBasePath = "../../../Problems/Relatorio1";
 
-            var matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
+                double[] matrizRecompensa;
+                int qtdeEstados;
 
-            var qtdeEstados = matrizRecompensa.Length;
+                matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
+                qtdeEstados = matrizRecompensa.Length;
 
-            //Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Gama = {gama} - Epsilon = {epsilon}");
+                Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Gama = {gama} - Epsilon = {epsilon}");
 
-            //ValueIteration.Run(
-            //    matrizRecompensa,
-            //    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-            //    gama,
-            //    epsilon);
+                ValueIteration.Run(
+                    matrizRecompensa,
+                    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                    gama,
+                    epsilon);
 
-            //Console.WriteLine();
+                Console.WriteLine();
 
-            /* Problema da Linha Determinística e Probabilística */
+                matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
+                qtdeEstados = matrizRecompensa.Length;
 
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
+                Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Gama = {gama} - Epsilon = {epsilon}");
 
-            ValueIteration.Run(
-                LinhaDetLinhaProb.ObterMatrizRecompensa(),
-                LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
-                gama,
-                epsilon);
+                ValueIteration.Run(
+                    matrizRecompensa,
+                    Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                    gama,
+                    epsilon);
 
-            Console.WriteLine();
+                Console.WriteLine();
 
-            gama = 0.9;
+                //matrizRecompensa = Ambiente3.ObterMatrizRecompensa(relatorioBasePath);
+                //qtdeEstados = matrizRecompensa.Length;
 
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 3 - Gama = {gama} - Epsilon = {epsilon}");
 
-            ValueIteration.Run(
-                LinhaDetLinhaProb.ObterMatrizRecompensa(),
-                LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
-                gama,
-                epsilon);
+                //ValueIteration.Run(
+                //    matrizRecompensa,
+                //    Ambiente3.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                //    gama,
+                //    epsilon);
 
-            Console.WriteLine();
+                //Console.WriteLine();
 
-            /* Problema do Rio */
+                ///* Problema da Linha Determinística e Probabilística */
 
-            gama = 1;
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
 
-            Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+                //ValueIteration.Run(
+                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
 
-            ValueIteration.Run(
-                Rio.ObterMatrizRecompensa(),
-                Rio.ObterMatrizesDeTransicao(),
-                gama,
-                epsilon);
+                //Console.WriteLine();
 
-            Console.WriteLine();
+                //gama = 0.9;
 
-            gama = 0.9;
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
 
-            Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+                //ValueIteration.Run(
+                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
 
-            ValueIteration.Run(
-                Rio.ObterMatrizRecompensa(),
-                Rio.ObterMatrizesDeTransicao(),
-                gama,
-                epsilon);
+                //Console.WriteLine();
 
-            Console.ReadLine();
+                ///* Problema do Rio */
+
+                //gama = 1;
+
+                //Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+
+                //ValueIteration.Run(
+                //    Rio.ObterMatrizRecompensa(),
+                //    Rio.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
+
+                //Console.WriteLine();
+
+                //gama = 0.9;
+
+                //Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+
+                //ValueIteration.Run(
+                //    Rio.ObterMatrizRecompensa(),
+                //    Rio.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
+
+                Console.ReadLine();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.ReadLine();
+            }
         }
     }
 }

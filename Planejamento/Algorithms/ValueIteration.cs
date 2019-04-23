@@ -6,7 +6,7 @@ namespace Planejamento.Algoritmos
 {
     static class ValueIteration
     {
-        public static long Run(double[] matrizRecompensa, List<double[,]> matrizesTransicao, double gama, double epsilon)
+        public static long Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon)
         {
             var qtdeEstados = matrizRecompensa.Length;
             var qtdeAcoes = matrizesTransicao.Count;
@@ -14,30 +14,34 @@ namespace Planejamento.Algoritmos
             var vProximo = new double[qtdeEstados];
 
             long iterations = 0;
+            double maxDif, probabilidade, novoValor, dif;
+            var valoresAcoes = new double[qtdeAcoes];
+
+            int s, a, slinha;
 
             while (true)
             {
-                var maxDif = 0.0;
+                maxDif = 0.0;
 
-                for (int s = 0; s < qtdeEstados; s++)
+                for (s = 0; s < qtdeEstados; s++)
                 {
-                    var valoresAcoes = new double[qtdeAcoes];
+                    for (a = 0; a < qtdeAcoes; a++)
+                        valoresAcoes[a] = 0;
 
-                    for (int slinha = 0; slinha < qtdeEstados; slinha++)
+                    for (slinha = 0; slinha < qtdeEstados; slinha++)
                     {
-                        for (int a = 0; a < qtdeAcoes; a++)
+                        for (a = 0; a < qtdeAcoes; a++)
                         {
-                            var probabilidade = matrizesTransicao[a][s, slinha];
+                            probabilidade = matrizesTransicao[a][s][slinha];
                             valoresAcoes[a] += (vAtual[slinha] * gama) * probabilidade;
                         }
                     }
 
-                    var novoValor = valoresAcoes.Max();
-                    var acaoEscolhida = Array.IndexOf(valoresAcoes, novoValor);
+                    novoValor = valoresAcoes.Max();
 
                     vProximo[s] = novoValor += matrizRecompensa[s];
 
-                    var dif = Math.Abs(vProximo[s] - vAtual[s]);
+                    dif = Math.Abs(vProximo[s] - vAtual[s]);
                     if (dif > maxDif)
                         maxDif = dif;
                 }
@@ -52,7 +56,7 @@ namespace Planejamento.Algoritmos
 
             Console.WriteLine($"Convergiu em {iterations} iterações");
 
-            for (int s = 0; s < qtdeEstados; s++)
+            for (s = 0; s < qtdeEstados; s++)
             {
                 Console.WriteLine($"Estado {s+1} => {vAtual[s]}");
             }
