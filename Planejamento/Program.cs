@@ -22,31 +22,31 @@ namespace Planejamento
                 double[] matrizRecompensa;
                 int qtdeEstados;
 
-                matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
-                qtdeEstados = matrizRecompensa.Length;
+                //matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
+                //qtdeEstados = matrizRecompensa.Length;
 
-                Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Gama = {gama} - Epsilon = {epsilon}");
 
-                ValueIteration.Run(
-                    matrizRecompensa,
-                    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                    gama,
-                    epsilon);
+                //ValueIteration.Run(
+                //    matrizRecompensa,
+                //    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                //    gama,
+                //    epsilon);
 
-                Console.WriteLine();
+                //Console.WriteLine();
 
-                matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
-                qtdeEstados = matrizRecompensa.Length;
+                //matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
+                //qtdeEstados = matrizRecompensa.Length;
 
-                Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Gama = {gama} - Epsilon = {epsilon}");
 
-                ValueIteration.Run(
-                    matrizRecompensa,
-                    Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                    gama,
-                    epsilon);
+                //ValueIteration.Run(
+                //    matrizRecompensa,
+                //    Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                //    gama,
+                //    epsilon);
 
-                Console.WriteLine();
+                //Console.WriteLine();
 
                 //matrizRecompensa = Ambiente3.ObterMatrizRecompensa(relatorioBasePath);
                 //qtdeEstados = matrizRecompensa.Length;
@@ -61,17 +61,25 @@ namespace Planejamento
 
                 //Console.WriteLine();
 
-                ///* Problema da Linha Determinística e Probabilística */
+                /* Problema da Linha Determinística e Probabilística */
 
-                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
+                Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
-                //ValueIteration.Run(
-                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
-                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
-                //    gama,
-                //    epsilon);
+                ValueIteration.Run(
+                    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                    gama,
+                    epsilon);
 
-                //Console.WriteLine();
+                Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama} - Epsilon = {epsilon}");
+
+                PolicyIteration.Run(
+                    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                    gama,
+                    epsilon);
+
+                Console.WriteLine();
 
                 //gama = 0.9;
 
