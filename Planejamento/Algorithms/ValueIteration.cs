@@ -14,7 +14,7 @@ namespace Planejamento.Algoritmos
             var vProximo = new double[qtdeEstados];
 
             long iterations = 0;
-            double maxDif, probabilidade, novoValor, dif;
+            double maxDif, probabilidade, dif;
             var valoresAcoes = new double[qtdeAcoes];
 
             int s, a, slinha;
@@ -33,13 +33,11 @@ namespace Planejamento.Algoritmos
                         for (a = 0; a < qtdeAcoes; a++)
                         {
                             probabilidade = matrizesTransicao[a][s][slinha];
-                            valoresAcoes[a] += (vAtual[slinha] * gama) * probabilidade;
+                            valoresAcoes[a] += probabilidade * (matrizRecompensa[s] + (vAtual[slinha] * gama));
                         }
                     }
 
-                    novoValor = valoresAcoes.Max();
-
-                    vProximo[s] = novoValor += matrizRecompensa[s];
+                    vProximo[s] = valoresAcoes.Max();
 
                     dif = Math.Abs(vProximo[s] - vAtual[s]);
                     if (dif > maxDif)

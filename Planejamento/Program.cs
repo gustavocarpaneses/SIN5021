@@ -14,31 +14,39 @@ namespace Planejamento
         {
             try
             {
-                var epsilon = 0.0000000001;
-                double gama = 0.9;
+                var epsilon = Math.Pow(10, -15);
+                double gama = 1;
 
                 var relatorioBasePath = "../../../Problems/Relatorio1";
 
                 double[] matrizRecompensa;
                 int qtdeEstados;
 
-                //matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
-                //qtdeEstados = matrizRecompensa.Length;
+                matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
+                qtdeEstados = matrizRecompensa.Length;
 
-                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Gama = {gama} - Epsilon = {epsilon}");
+                Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
-                //ValueIteration.Run(
-                //    matrizRecompensa,
-                //    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                //    gama,
-                //    epsilon);
+                ValueIteration.Run(
+                    matrizRecompensa,
+                    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                    gama,
+                    epsilon);
 
-                //Console.WriteLine();
+                Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Policy Iteration - Gama = {gama} - Epsilon = {epsilon}");
+
+                PolicyIteration.Run(
+                    matrizRecompensa,
+                    Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
+                    gama,
+                    epsilon);
+
+                Console.WriteLine();
 
                 //matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
                 //qtdeEstados = matrizRecompensa.Length;
 
-                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
                 //ValueIteration.Run(
                 //    matrizRecompensa,
@@ -51,7 +59,7 @@ namespace Planejamento
                 //matrizRecompensa = Ambiente3.ObterMatrizRecompensa(relatorioBasePath);
                 //qtdeEstados = matrizRecompensa.Length;
 
-                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 3 - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Relatório 1 - Ambiente 3 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
                 //ValueIteration.Run(
                 //    matrizRecompensa,
@@ -61,31 +69,39 @@ namespace Planejamento
 
                 //Console.WriteLine();
 
-                /* Problema da Linha Determinística e Probabilística */
+                ///* Problema da Linha Determinística e Probabilística */
 
-                Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
-                ValueIteration.Run(
-                    LinhaDetLinhaProb.ObterMatrizRecompensa(),
-                    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
-                    gama,
-                    epsilon);
+                //ValueIteration.Run(
+                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
 
-                Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
-                PolicyIteration.Run(
-                    LinhaDetLinhaProb.ObterMatrizRecompensa(),
-                    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
-                    gama,
-                    epsilon);
+                //PolicyIteration.Run(
+                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
 
-                Console.WriteLine();
+                //Console.WriteLine();
 
                 //gama = 0.9;
 
-                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
 
                 //ValueIteration.Run(
+                //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
+                //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
+
+                //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama} - Epsilon = {epsilon}");
+
+                //PolicyIteration.Run(
                 //    LinhaDetLinhaProb.ObterMatrizRecompensa(),
                 //    LinhaDetLinhaProb.ObterMatrizesDeTransicao(),
                 //    gama,
@@ -97,9 +113,17 @@ namespace Planejamento
 
                 //gama = 1;
 
-                //Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Rio - Value Iteration -Gama = {gama} - Epsilon = {epsilon}");
 
                 //ValueIteration.Run(
+                //    Rio.ObterMatrizRecompensa(),
+                //    Rio.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
+
+                //Console.WriteLine($"Problema do Rio - Policy Iteration -Gama = {gama} - Epsilon = {epsilon}");
+
+                //PolicyIteration.Run(
                 //    Rio.ObterMatrizRecompensa(),
                 //    Rio.ObterMatrizesDeTransicao(),
                 //    gama,
@@ -109,7 +133,7 @@ namespace Planejamento
 
                 //gama = 0.9;
 
-                //Console.WriteLine($"Problema do Rio - Gama = {gama} - Epsilon = {epsilon}");
+                //Console.WriteLine($"Problema do Rio - Value Iteration -Gama = {gama} - Epsilon = {epsilon}");
 
                 //ValueIteration.Run(
                 //    Rio.ObterMatrizRecompensa(),
@@ -117,9 +141,17 @@ namespace Planejamento
                 //    gama,
                 //    epsilon);
 
+                //Console.WriteLine($"Problema do Rio - Policy Iteration -Gama = {gama} - Epsilon = {epsilon}");
+
+                //PolicyIteration.Run(
+                //    Rio.ObterMatrizRecompensa(),
+                //    Rio.ObterMatrizesDeTransicao(),
+                //    gama,
+                //    epsilon);
+
                 Console.ReadLine();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
