@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Planejamento.Algoritmos
 {
     static class PolicyIteration
     {
-        public static long Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon)
+        public static dynamic Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             var qtdeEstados = matrizRecompensa.Length;
             var qtdeAcoes = matrizesTransicao.Count;
-            var pi = new int[qtdeEstados];
+            var pi = new int[qtdeEstados][];
+            var piLinha = new int[qtdeEstados][];
 
             var vPi = new double[qtdeEstados];
             double[] vAux;
-            var vAtual = new double[qtdeEstados];
 
-            long iterations = 0;
+            long totalIterations = 0;
+            long optimizationIterations = 0;
             double probabilidade;
-            bool melhorou;
+            bool mudou;
             var valoresAcoes = new double[qtdeAcoes];
+            var valorMelhorAcao = 0.0;
             int s, a, slinha;
 
             for (s = 0; s < qtdeEstados; s++)
-                pi[s] = new Random().Next(0, qtdeAcoes - 1);
+                pi[s] = new int[] { new Random().Next(0, qtdeAcoes - 1) };
 
             while (true)
             {
@@ -35,12 +41,13 @@ namespace Planejamento.Algoritmos
                     vPi[s] = 0;
                     for (slinha = 0; slinha < qtdeEstados; slinha++)
                     {
-                        probabilidade = matrizesTransicao[pi[s]][s][slinha];
+                        probabilidade = matrizesTransicao[pi[s].First()][s][slinha];
                         vPi[s] += probabilidade * (matrizRecompensa[s] + (gama * vAux[slinha]));
+                        totalIterations++;
                     }
                 }
 
-                melhorou = false;
+                mudou = false;
 
                 //melhorar
                 for (s = 0; s < qtdeEstados; s++)
@@ -54,30 +61,35 @@ namespace Planejamento.Algoritmos
                         {
                             probabilidade = matrizesTransicao[a][s][slinha];
                             valoresAcoes[a] += probabilidade * (matrizRecompensa[s] + (gama * vPi[slinha]));
+                            totalIterations++;
                         }
                     }
 
-                    vAtual[s] = valoresAcoes.Max();
-                    pi[s] = Array.IndexOf(valoresAcoes, vAtual[s]);
+                    valorMelhorAcao = valoresAcoes.Max();
+                    piLinha[s] = valoresAcoes.Select((v, i) => new { v, i }).Where(v => v.v == valorMelhorAcao).Select(v => v.i).ToArray();
 
-                    if (vAtual[s] < vPi[s])
-                        melhorou = true;
+                    if (!piLinha[s].SequenceEqual(pi[s]))
+                        mudou = true;
+
+                    pi[s] = piLinha[s];
                 }
 
-                iterations++;
+                optimizationIterations++;
 
-                if (!melhorou)
+                if (!mudou)
                     break;
             }
 
-            Console.WriteLine($"Convergiu em {iterations} iterações");
+            sw.Stop();
 
-            for (s = 0; s < qtdeEstados; s++)
+            return new
             {
-                Console.WriteLine($"Estado {s + 1} => {vAtual[s]}");
-            }
-
-            return iterations;
+                totalIterations,
+                optimizationIterations,
+                pi,
+                vPi,
+                tempo = sw.Elapsed.ToString()
+            };
         }
     }
 }

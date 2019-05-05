@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Planejamento.Algoritmos
 {
     static class ValueIteration
     {
-        public static long Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon)
+        public static dynamic Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             var qtdeEstados = matrizRecompensa.Length;
             var qtdeAcoes = matrizesTransicao.Count;
             var vAtual = new double[qtdeEstados];
             var vProximo = new double[qtdeEstados];
 
-            long iterations = 0;
+            long totalIterations = 0;
+            long optimizationIterations = 0;
             double maxDif, probabilidade, dif;
             var valoresAcoes = new double[qtdeAcoes];
+            var pi = new int[qtdeEstados][];
 
             int s, a, slinha;
 
@@ -34,10 +40,12 @@ namespace Planejamento.Algoritmos
                         {
                             probabilidade = matrizesTransicao[a][s][slinha];
                             valoresAcoes[a] += probabilidade * (matrizRecompensa[s] + (vAtual[slinha] * gama));
+                            totalIterations++;
                         }
                     }
 
                     vProximo[s] = valoresAcoes.Max();
+                    pi[s] = valoresAcoes.Select((v, i) => new { v, i }).Where(v => v.v == vProximo[s]).Select(v => v.i).ToArray();
 
                     dif = Math.Abs(vProximo[s] - vAtual[s]);
                     if (dif > maxDif)
@@ -46,20 +54,22 @@ namespace Planejamento.Algoritmos
 
                 vAtual = (double[])vProximo.Clone();
 
-                iterations++;
+                optimizationIterations++;
 
                 if (maxDif < epsilon)
                     break;
             }
 
-            Console.WriteLine($"Convergiu em {iterations} iterações");
+            sw.Stop();
 
-            for (s = 0; s < qtdeEstados; s++)
+            return new
             {
-                Console.WriteLine($"Estado {s+1} => {vAtual[s]}");
-            }
-
-            return iterations;
+                totalIterations,
+                optimizationIterations,
+                pi,
+                vPi = vAtual,
+                tempo = sw.Elapsed.ToString()
+            };
         }
     }
 }
