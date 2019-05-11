@@ -21,7 +21,6 @@ namespace Planejamento.Algoritmos
             double[] vAux;
 
             long totalIterations = 0;
-            double probabilidade;
             bool mudou;
             var valoresAcoes = new double[qtdeAcoes];
             var valorMelhorAcao = 0.0;
@@ -29,6 +28,8 @@ namespace Planejamento.Algoritmos
 
             for (s = 0; s < qtdeEstados; s++)
                 pi[s] = new int[] { new Random().Next(0, qtdeAcoes - 1) };
+
+            Console.WriteLine();
 
             while (true)
             {
@@ -40,11 +41,11 @@ namespace Planejamento.Algoritmos
                     vPi[s] = 0;
                     for (slinha = 0; slinha < qtdeEstados; slinha++)
                     {
-                        probabilidade = matrizesTransicao[pi[s].First()][s][slinha];
-                        vPi[s] += probabilidade * (matrizRecompensa[s] + (gama * vAux[slinha]));
-                        totalIterations++;
+                        vPi[s] += matrizesTransicao[pi[s].First()][s][slinha] * (matrizRecompensa[s] + (gama * vAux[slinha]));
                     }
                 }
+
+                totalIterations += qtdeEstados * qtdeEstados;
 
                 mudou = false;
 
@@ -58,9 +59,7 @@ namespace Planejamento.Algoritmos
                     {
                         for (a = 0; a < qtdeAcoes; a++)
                         {
-                            probabilidade = matrizesTransicao[a][s][slinha];
-                            valoresAcoes[a] += probabilidade * (matrizRecompensa[s] + (gama * vPi[slinha]));
-                            totalIterations++;
+                            valoresAcoes[a] += matrizesTransicao[a][s][slinha] * (matrizRecompensa[s] + (gama * vPi[slinha]));
                         }
                     }
 
@@ -73,11 +72,18 @@ namespace Planejamento.Algoritmos
                     pi[s] = piLinha[s];
                 }
 
+                totalIterations += qtdeEstados * qtdeEstados * qtdeAcoes;
+
                 if (!mudou)
                     break;
+
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(totalIterations);
             }
 
             sw.Stop();
+
+            Console.SetCursorPosition(0, Console.CursorTop);
 
             return new
             {

@@ -18,7 +18,7 @@ namespace Planejamento.Algoritmos
             var v = new double[qtdeEstados];
 
             long totalIterations = 0;
-            double probabilidade, delta;
+            double delta;
             var valoresAcoes = new double[qtdeAcoes];
             var pi = new int[qtdeEstados][];
 
@@ -27,6 +27,8 @@ namespace Planejamento.Algoritmos
 
             for (s = 0; s < qtdeEstados; s++)
                 h[s] = epsilon + (0.1 * new Random().NextDouble());
+
+            Console.WriteLine();
 
             while (true)
             {
@@ -40,11 +42,11 @@ namespace Planejamento.Algoritmos
                 {
                     for (a = 0; a < qtdeAcoes; a++)
                     {
-                        probabilidade = matrizesTransicao[a][melhorS][slinha];
-                        valoresAcoes[a] += probabilidade * (matrizRecompensa[melhorS] + (v[slinha] * gama));
-                        totalIterations++;
+                        valoresAcoes[a] += matrizesTransicao[a][melhorS][slinha] * (matrizRecompensa[melhorS] + (v[slinha] * gama));
                     }
                 }
+
+                totalIterations += qtdeEstados * qtdeAcoes;
 
                 maxV = valoresAcoes.Max();
                 pi[melhorS] = valoresAcoes.Select((value, index) => new { v = value, i = index }).Where(x => x.v == maxV).Select(x => x.i).ToArray();
@@ -63,9 +65,14 @@ namespace Planejamento.Algoritmos
 
                 if (h.Max() < epsilon)
                     break;
+
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(totalIterations);
             }
 
             sw.Stop();
+
+            Console.SetCursorPosition(0, Console.CursorTop);
 
             return new
             {

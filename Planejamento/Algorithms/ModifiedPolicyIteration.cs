@@ -19,7 +19,7 @@ namespace Planejamento.Algoritmos
             double[] vAux;
 
             long totalIterations = 0;
-            double maxDif, probabilidade, dif;
+            double maxDif, dif;
             var valoresAcoes = new double[qtdeAcoes];
             var pi = new int[qtdeEstados][];
 
@@ -27,6 +27,8 @@ namespace Planejamento.Algoritmos
 
             for (s = 0; s < qtdeEstados; s++)
                 pi[s] = new int[] { new Random().Next(0, qtdeAcoes - 1) };
+
+            Console.WriteLine();
 
             while (true)
             {
@@ -40,12 +42,12 @@ namespace Planejamento.Algoritmos
 
                         for (slinha = 0; slinha < qtdeEstados; slinha++)
                         {
-                            probabilidade = matrizesTransicao[pi[s].First()][s][slinha];
-                            vAtual[s] += probabilidade * (matrizRecompensa[s] + (gama * vAux[slinha]));
-                            totalIterations++;
+                            vAtual[s] += matrizesTransicao[pi[s].First()][s][slinha] * (matrizRecompensa[s] + (gama * vAux[slinha]));
                         }
                     }
                 }
+
+                totalIterations += qtdeEstados * qtdeEstados * mCount;
 
                 maxDif = 0.0;
 
@@ -58,9 +60,7 @@ namespace Planejamento.Algoritmos
                     {
                         for (a = 0; a < qtdeAcoes; a++)
                         {
-                            probabilidade = matrizesTransicao[a][s][slinha];
-                            valoresAcoes[a] += probabilidade * (matrizRecompensa[s] + (gama * vAtual[slinha]));
-                            totalIterations++;
+                            valoresAcoes[a] += matrizesTransicao[a][s][slinha] * (matrizRecompensa[s] + (gama * vAtual[slinha]));
                         }
                     }
 
@@ -72,13 +72,20 @@ namespace Planejamento.Algoritmos
                         maxDif = dif;
                 }
 
+                totalIterations += qtdeEstados * qtdeEstados * qtdeAcoes;
+
                 vAtual = (double[])vProximo.Clone();
 
                 if (maxDif < epsilon)
                     break;
+
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(totalIterations);
             }
 
             sw.Stop();
+
+            Console.SetCursorPosition(0, Console.CursorTop);
 
             return new
             {

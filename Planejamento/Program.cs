@@ -22,11 +22,12 @@ namespace Planejamento
 
                 var relatorioBasePath = "../../../Problems/Relatorio1";
 
+
                 //ProblemaAmbiente1(relatorioBasePath);
 
-                //ProblemaAmbiente2(relatorioBasePath);
+                ProblemaAmbiente2(relatorioBasePath);
 
-                ProblemaAmbiente3(relatorioBasePath);
+                //ProblemaAmbiente3(relatorioBasePath);
 
                 //ProblemaLinhaDetLinhaProb();
 
@@ -109,7 +110,7 @@ namespace Planejamento
                         gama);
 
                     Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
-
+                    
                     sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo}");
 
                     Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
