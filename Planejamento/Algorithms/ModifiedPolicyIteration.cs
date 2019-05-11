@@ -7,16 +7,13 @@ namespace Planejamento.Algoritmos
 {
     static class ModifiedPolicyIteration
     {
-        public static dynamic Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon, int m)
+        public static dynamic Run(double[] matrizRecompensa, IList<double[][]> matrizesTransicao, double gama, double epsilon, int mCount)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
             var qtdeEstados = matrizRecompensa.Length;
             var qtdeAcoes = matrizesTransicao.Count;
-            var pi = new int[qtdeEstados][];
-            var piLinha = new int[qtdeEstados][];
-
             var vAtual = new double[qtdeEstados];
             var vProximo = new double[qtdeEstados];
             double[] vAux;
@@ -25,29 +22,33 @@ namespace Planejamento.Algoritmos
             long optimizationIterations = 0;
             double maxDif, probabilidade, dif;
             var valoresAcoes = new double[qtdeAcoes];
-            int s, a, slinha;
+            var pi = new int[qtdeEstados][];
+
+            int s, a, slinha, m;
 
             for (s = 0; s < qtdeEstados; s++)
                 pi[s] = new int[] { new Random().Next(0, qtdeAcoes - 1) };
 
             while (true)
             {
-                maxDif = 0.0;
-
-                for (int i = 0; i < m; i++)
+                for (m = 0; m < mCount; m++)
                 {
-                    vAux = (double[])vProximo.Clone();
+                    vAux = (double[])vAtual.Clone();
 
                     for (s = 0; s < qtdeEstados; s++)
                     {
+                        vAtual[s] = 0;
+
                         for (slinha = 0; slinha < qtdeEstados; slinha++)
                         {
                             probabilidade = matrizesTransicao[pi[s].First()][s][slinha];
-                            vProximo[s] += probabilidade * (matrizRecompensa[s] + (gama * vAux[slinha]));
+                            vAtual[s] += probabilidade * (matrizRecompensa[s] + (gama * vAux[slinha]));
                             totalIterations++;
                         }
                     }
                 }
+
+                maxDif = 0.0;
 
                 for (s = 0; s < qtdeEstados; s++)
                 {
@@ -67,11 +68,9 @@ namespace Planejamento.Algoritmos
                     vProximo[s] = valoresAcoes.Max();
                     pi[s] = valoresAcoes.Select((v, i) => new { v, i }).Where(v => v.v == vProximo[s]).Select(v => v.i).ToArray();
 
-                    dif = Math.Abs(vAtual[s] - vProximo[s]);
+                    dif = Math.Abs(vProximo[s] - vAtual[s]);
                     if (dif > maxDif)
                         maxDif = dif;
-
-                    //pi[s] = piLinha[s];
                 }
 
                 vAtual = (double[])vProximo.Clone();

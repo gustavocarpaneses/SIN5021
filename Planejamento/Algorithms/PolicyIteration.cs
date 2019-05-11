@@ -7,7 +7,7 @@ namespace Planejamento.Algoritmos
 {
     static class PolicyIteration
     {
-        public static dynamic Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama)
+        public static dynamic Run(double[] matrizRecompensa, IList<double[][]> matrizesTransicao, double gama)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();

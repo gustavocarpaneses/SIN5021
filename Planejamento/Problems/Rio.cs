@@ -22,10 +22,10 @@ namespace Planejamento.Problemas
 
             recompensa[0] = -1;
             recompensa[1] = -1;
-            recompensa[2] = 0;
+            recompensa[2] = -1;
             recompensa[3] = -1;
             recompensa[4] = -1;
-            recompensa[5] = -1;
+            recompensa[5] = 0;
 
             return recompensa;
         }
@@ -40,10 +40,10 @@ namespace Planejamento.Problemas
             transicaoNorte[0][3] = 1;
             transicaoNorte[1][4] = 0.5;
             transicaoNorte[1][0] = 0.5;
-            transicaoNorte[2][2] = 0; //absorvedor
+            transicaoNorte[2][2] = 1;
             transicaoNorte[3][3] = 1;
             transicaoNorte[4][4] = 1;
-            transicaoNorte[5][5] = 1;
+            transicaoNorte[5][5] = 0; //absorvedor
 
             double[][] transicaoLeste = new double[6][];
 
@@ -53,10 +53,10 @@ namespace Planejamento.Problemas
             transicaoLeste[0][1] = 1;
             transicaoLeste[1][2] = 0.5;
             transicaoLeste[1][0] = 0.5;
-            transicaoLeste[2][2] = 0; //absorvedor
+            transicaoLeste[2][2] = 1;
             transicaoLeste[3][4] = 1;
             transicaoLeste[4][5] = 1;
-            transicaoLeste[5][5] = 1;
+            transicaoLeste[5][5] = 0; //absorvedor
 
             double[][] transicaoOeste = new double[6][];
 
@@ -65,10 +65,10 @@ namespace Planejamento.Problemas
 
             transicaoOeste[0][0] = 1;
             transicaoOeste[1][0] = 1;
-            transicaoOeste[2][2] = 0; //absorvedor
+            transicaoOeste[2][1] = 1; 
             transicaoOeste[3][3] = 1;
             transicaoOeste[4][3] = 1;
-            transicaoOeste[5][4] = 1;
+            transicaoOeste[5][5] = 0;//absorvedor
 
             double[][] transicaoSul = new double[6][];
 
@@ -78,11 +78,11 @@ namespace Planejamento.Problemas
             transicaoSul[0][0] = 1;
             transicaoSul[1][1] = 0.5;
             transicaoSul[1][0] = 0.5;
-            transicaoSul[2][2] = 0; //absorvedor
+            transicaoSul[2][5] = 1; 
             transicaoSul[3][0] = 1;
             transicaoSul[4][1] = 1;
-            transicaoSul[5][2] = 1;
-                       
+            transicaoSul[5][5] = 0;//absorvedor
+
             return new List<double[][]>
             {
                 transicaoNorte, transicaoSul, transicaoLeste, transicaoOeste

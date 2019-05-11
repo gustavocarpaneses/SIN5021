@@ -4,6 +4,8 @@ using Planejamento.Problems.Relatorio1.Ambiente1;
 using Planejamento.Problems.Relatorio1.Ambiente2;
 using Planejamento.Problems.Relatorio1.Ambiente3;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -22,13 +24,13 @@ namespace Planejamento
 
                 //ProblemaAmbiente1(relatorioBasePath);
 
-                //ProblemaAmbiente2(relatorioBasePath);
+                ProblemaAmbiente2(relatorioBasePath);
 
                 //ProblemaAmbiente3(relatorioBasePath);
 
-                ProblemaDaLinhaDetLinhaProb();
+                //ProblemaLinhaDetLinhaProb();
 
-                //ProblemaDoRio();
+                //ProblemaRio();
 
                 Console.ReadLine();
             }
@@ -42,318 +44,138 @@ namespace Planejamento
 
         private static void ProblemaAmbiente1(string relatorioBasePath)
         {
-            var epsilon = Math.Pow(10, -15);
-            double gama = 1;
+            var matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
+            var qtdeEstados = matrizRecompensa.Length;
+            var matrizTransicao = Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados);
 
-            double[] matrizRecompensa;
-            int qtdeEstados;
-
-            matrizRecompensa = Ambiente1.ObterMatrizRecompensa(relatorioBasePath);
-            qtdeEstados = matrizRecompensa.Length;
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
-
-            var retorno = ValueIteration.Run(
-                matrizRecompensa,
-                Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(15, 9, 1, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 1 - Policy Iteration - Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                Ambiente1.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(15, 9, 1, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
+            ExecutarAlgoritmos("Ambiente 1", matrizRecompensa, matrizTransicao, 15, 9, 1);
         }
 
         private static void ProblemaAmbiente2(string relatorioBasePath)
         {
-            var epsilon = Math.Pow(10, -10);
-            double gama = 0.9;
+            var matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
+            var qtdeEstados = matrizRecompensa.Length;
+            var matrizTransicao = Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados);
 
-            double[] matrizRecompensa;
-            int qtdeEstados;
-
-            matrizRecompensa = Ambiente2.ObterMatrizRecompensa(relatorioBasePath);
-            qtdeEstados = matrizRecompensa.Length;
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
-
-            var retorno = ValueIteration.Run(
-                matrizRecompensa,
-                Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(15, 9, 11, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 2 - Policy Iteration - Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                Ambiente2.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(15, 9, 11, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
+            ExecutarAlgoritmos("Ambiente 2", matrizRecompensa, matrizTransicao, 15, 9, 11);
         }
 
         private static void ProblemaAmbiente3(string relatorioBasePath)
         {
-            var epsilon = Math.Pow(10, -5);
-            double gama = 1;
+            var matrizRecompensa = Ambiente3.ObterMatrizRecompensa(relatorioBasePath);
+            var qtdeEstados = matrizRecompensa.Length;
+            var matrizTransicao = Ambiente3.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados);
 
-            double[] matrizRecompensa;
-
-            int qtdeEstados;
-            matrizRecompensa = Ambiente3.ObterMatrizRecompensa(relatorioBasePath);
-            qtdeEstados = matrizRecompensa.Length;
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 3 - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
-
-            var retorno = ValueIteration.Run(
-                matrizRecompensa,
-                Ambiente3.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(30, 18, 35, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema do Relatório 1 - Ambiente 3 - Policy Iteration - Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                Ambiente3.ObterMatrizesDeTransicao(relatorioBasePath, qtdeEstados),
-                gama);
-
-            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            Print(30, 18, 35, retorno.pi, retorno.vPi);
-
-            Console.WriteLine();
+            ExecutarAlgoritmos("Ambiente 3", matrizRecompensa, matrizTransicao, 30, 18, 35);
         }
 
-        private static void ProblemaDaLinhaDetLinhaProb()
+        private static void ProblemaLinhaDetLinhaProb()
         {
-            var epsilon = Math.Pow(10, -15);
-            double gama = 1;
-            int m = 1;
-
             var matrizRecompensa = LinhaDetLinhaProb.ObterMatrizRecompensa();
-            var matrizesTransicao = LinhaDetLinhaProb.ObterMatrizesDeTransicao();
-            var qtdeEstados = matrizRecompensa.Length;
-            int s;
+            var matrizTransicao = LinhaDetLinhaProb.ObterMatrizesDeTransicao();
 
-            /* Problema da Linha Determinística e Probabilística */
-
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
-
-            var retorno = ValueIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Modified Policy Iteration - Gama = {gama} - Epsilon = {epsilon} - m = {m}");
-
-            //retorno = ModifiedPolicyIteration.Run(
-            //    matrizRecompensa,
-            //    matrizesTransicao,
-            //    gama,
-            //    epsilon,
-            //    m);
-
-            //Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            //for (s = 0; s < qtdeEstados; s++)
-            //{
-            //    Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            //}
-
-            //Console.WriteLine();
-
-            gama = 0.9;
-
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
-
-            retorno = ValueIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Policy Iteration - Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            //Console.WriteLine($"Problema da Linha Determinística e Linha Probabilística - Modified Policy Iteration - Gama = {gama} - Epsilon = {epsilon} - m = {m}");
-
-            //retorno = ModifiedPolicyIteration.Run(
-            //    matrizRecompensa,
-            //    matrizesTransicao,
-            //    gama,
-            //    epsilon,
-            //    m);
-
-            //Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            //for (s = 0; s < qtdeEstados; s++)
-            //{
-            //    Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            //}
-
-            //Console.WriteLine();
+            ExecutarAlgoritmos("Ambiente linha det-prob", matrizRecompensa, matrizTransicao, 5, 2, 1, true);
         }
 
-        private static void ProblemaDoRio()
+        private static void ProblemaRio()
         {
-            var epsilon = Math.Pow(10, -15);
-            double gama = 1;
-
             var matrizRecompensa = Rio.ObterMatrizRecompensa();
-            var matrizesTransicao = Rio.ObterMatrizesDeTransicao();
-            var qtdeEstados = matrizRecompensa.Length;
-            int s;
+            var matrizTransicao = Rio.ObterMatrizesDeTransicao();
 
-            /* Problema do Rio */
+            ExecutarAlgoritmos("Ambiente rio", matrizRecompensa, matrizTransicao, 3, 2, 1, true);
+        }
 
-            Console.WriteLine($"Problema do Rio - Value Iteration -Gama = {gama} - Epsilon = {epsilon}");
+        private static void ExecutarAlgoritmos(string ambiente, double[] matrizRecompensa, IList<double[][]> matrizTransicao, int largura, int altura, int qtdePisos, bool imprimir = true)
+        {
+            //var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5) };
+            //var gamas = new double[] { 1.0, 0.99, 0.9, 0.8, 0.5 };
+            //var ms = new int[] { 1, 2, 3, 4, 5 };
 
-            var retorno = ValueIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama,
-                epsilon);
+            var epsilons = new double[] { Math.Pow(10, -15) };
+            var gamas = new double[] { 0.9 };
+            var ms = new int[] { 3 };
 
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
+            using (var sw = new StreamWriter($"resultado_{ambiente}_{DateTime.Now.Ticks.ToString()}.csv", false))
             {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
+                sw.WriteLine("algoritmo;gama;epsilon;m;totalIterations;optimizationIterations;tempo");
+
+                foreach (var gama in gamas)
+                {
+                    Console.WriteLine($"{ambiente} - Policy Iteration - Gama = {gama}");
+
+                    var retorno = PolicyIteration.Run(
+                        matrizRecompensa,
+                        matrizTransicao,
+                        gama);
+
+                    Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+
+                    sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+
+                    if (imprimir)
+                        Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+
+                    Console.WriteLine();
+
+                    foreach (var epsilon in epsilons)
+                    {
+                        Console.WriteLine($"{ambiente} - Value Iteration - Gama = {gama} - Epsilon = {epsilon}");
+
+                        retorno = ValueIteration.Run(
+                            matrizRecompensa,
+                            matrizTransicao,
+                            gama,
+                            epsilon);
+
+                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+
+                        sw.WriteLine($"vi;{gama};{epsilon};-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+
+                        if (imprimir)
+                            Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+
+                        Console.WriteLine();
+
+                        Console.WriteLine($"{ambiente} - Prioritized Sweeping - Gama = {gama} - Epsilon = {epsilon}");
+
+                        retorno = PrioritizedSweeping.Run(
+                            matrizRecompensa,
+                            matrizTransicao,
+                            gama,
+                            epsilon);
+
+                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+
+                        sw.WriteLine($"ps;{gama};{epsilon};-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+
+                        if (imprimir)
+                            Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+
+                        Console.WriteLine();
+
+                        foreach (var m in ms)
+                        {
+                            Console.WriteLine($"{ambiente} - Modified Policy Iteration - Gama = {gama} - Epsilon = {epsilon} - m = {m}");
+
+                            retorno = ModifiedPolicyIteration.Run(
+                                matrizRecompensa,
+                                matrizTransicao,
+                                gama,
+                                epsilon,
+                                m);
+
+                            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+
+                            sw.WriteLine($"mpi;{gama};{epsilon};{m};{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+
+                            if (imprimir)
+                                Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+
+                            Console.WriteLine();
+                        }
+                    }
+                }
             }
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema do Rio - Policy Iteration -Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            gama = 0.9;
-
-            Console.WriteLine($"Problema do Rio - Value Iteration -Gama = {gama} - Epsilon = {epsilon}");
-
-            retorno = ValueIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama,
-                epsilon);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
-
-            Console.WriteLine($"Problema do Rio - Policy Iteration -Gama = {gama}");
-
-            retorno = PolicyIteration.Run(
-                matrizRecompensa,
-                matrizesTransicao,
-                gama);
-
-            Console.WriteLine($"Convergiu num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
-
-            for (s = 0; s < qtdeEstados; s++)
-            {
-                Console.WriteLine($"Estado {s + 1} => Ação: {GetActionName(retorno.pi[s])} => {retorno.vPi[s]}");
-            }
-
-            Console.WriteLine();
         }
 
         private static string GetActionName(int[] actionsIndex)
@@ -376,9 +198,6 @@ namespace Planejamento
 
         private static string GetActionSymbol(int[] pi)
         {
-            if (pi.Length == 6)
-                return "G";
-
             var actionIndex = pi.First();
 
             switch (actionIndex)
@@ -403,8 +222,8 @@ namespace Planejamento
             for (int p = 0; p < qtdePisos; p++)
             {
                 Console.ResetColor();
-                Console.WriteLine($"Piso {p+1}");
-                
+                Console.WriteLine($"Piso {p + 1}");
+
                 Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(new string(' ', largura * 2 + 1));
 
@@ -418,7 +237,10 @@ namespace Planejamento
                         var normalizedValue = ((vPi[s] - min) / (max - min)) * 5;
 
                         SetColor(Math.Round(normalizedValue, 0));
-                        Console.Write(GetActionSymbol(pi[s]));
+                        if (vPi[s] == 0)
+                            Console.Write("G");
+                        else
+                            Console.Write(GetActionSymbol(pi[s]));
 
                         if (j == (largura - 1))
                         {

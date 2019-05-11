@@ -7,7 +7,7 @@ namespace Planejamento.Algoritmos
 {
     static class ValueIteration
     {
-        public static dynamic Run(double[] matrizRecompensa, List<double[][]> matrizesTransicao, double gama, double epsilon)
+        public static dynamic Run(double[] matrizRecompensa, IList<double[][]> matrizesTransicao, double gama, double epsilon)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
