@@ -18,7 +18,6 @@ namespace Planejamento.Algoritmos
             var vProximo = new double[qtdeEstados];
 
             long totalIterations = 0;
-            long optimizationIterations = 0;
             double maxDif, probabilidade, dif;
             var valoresAcoes = new double[qtdeAcoes];
             var pi = new int[qtdeEstados][];
@@ -54,8 +53,6 @@ namespace Planejamento.Algoritmos
 
                 vAtual = (double[])vProximo.Clone();
 
-                optimizationIterations++;
-
                 if (maxDif < epsilon)
                     break;
             }
@@ -65,7 +62,6 @@ namespace Planejamento.Algoritmos
             return new
             {
                 totalIterations,
-                optimizationIterations,
                 pi,
                 vPi = vAtual,
                 tempo = sw.Elapsed.ToString()

@@ -18,16 +18,15 @@ namespace Planejamento.Algoritmos
             var v = new double[qtdeEstados];
 
             long totalIterations = 0;
-            long optimizationIterations = 0;
             double probabilidade, delta;
             var valoresAcoes = new double[qtdeAcoes];
             var pi = new int[qtdeEstados][];
 
-            double maxH, maxV, maxT;
+            double maxH, maxV;
             int s, melhorS, a, slinha;
 
             for (s = 0; s < qtdeEstados; s++)
-                h[s] = epsilon + new Random().NextDouble();
+                h[s] = epsilon + (0.1 * new Random().NextDouble());
 
             while (true)
             {
@@ -51,7 +50,7 @@ namespace Planejamento.Algoritmos
                 pi[melhorS] = valoresAcoes.Select((value, index) => new { v = value, i = index }).Where(x => x.v == maxV).Select(x => x.i).ToArray();
 
                 delta = Math.Abs(maxV - v[melhorS]);
-
+                
                 v[melhorS] = maxV;
 
                 for (s = 0; s < qtdeEstados; s++)
@@ -62,8 +61,6 @@ namespace Planejamento.Algoritmos
                         h[s] = Math.Max(h[s], delta * matrizesTransicao.Max(x => x[s][melhorS]));
                 }
 
-                optimizationIterations++;
-
                 if (h.Max() < epsilon)
                     break;
             }
@@ -73,7 +70,6 @@ namespace Planejamento.Algoritmos
             return new
             {
                 totalIterations,
-                optimizationIterations,
                 pi,
                 vPi = v,
                 tempo = sw.Elapsed.ToString()

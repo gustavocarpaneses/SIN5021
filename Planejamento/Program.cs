@@ -24,9 +24,9 @@ namespace Planejamento
 
                 //ProblemaAmbiente1(relatorioBasePath);
 
-                ProblemaAmbiente2(relatorioBasePath);
+                //ProblemaAmbiente2(relatorioBasePath);
 
-                //ProblemaAmbiente3(relatorioBasePath);
+                ProblemaAmbiente3(relatorioBasePath);
 
                 //ProblemaLinhaDetLinhaProb();
 
@@ -74,7 +74,7 @@ namespace Planejamento
             var matrizRecompensa = LinhaDetLinhaProb.ObterMatrizRecompensa();
             var matrizTransicao = LinhaDetLinhaProb.ObterMatrizesDeTransicao();
 
-            ExecutarAlgoritmos("Ambiente linha det-prob", matrizRecompensa, matrizTransicao, 5, 2, 1, true);
+            ExecutarAlgoritmos("Ambiente linha det-prob", matrizRecompensa, matrizTransicao, 5, 2, 1);
         }
 
         private static void ProblemaRio()
@@ -82,22 +82,22 @@ namespace Planejamento
             var matrizRecompensa = Rio.ObterMatrizRecompensa();
             var matrizTransicao = Rio.ObterMatrizesDeTransicao();
 
-            ExecutarAlgoritmos("Ambiente rio", matrizRecompensa, matrizTransicao, 3, 2, 1, true);
+            ExecutarAlgoritmos("Ambiente rio", matrizRecompensa, matrizTransicao, 3, 2, 1);
         }
 
-        private static void ExecutarAlgoritmos(string ambiente, double[] matrizRecompensa, IList<double[][]> matrizTransicao, int largura, int altura, int qtdePisos, bool imprimir = true)
+        private static void ExecutarAlgoritmos(string ambiente, double[] matrizRecompensa, IList<double[][]> matrizTransicao, int largura, int altura, int qtdePisos)
         {
             //var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5) };
             //var gamas = new double[] { 1.0, 0.99, 0.9, 0.8, 0.5 };
             //var ms = new int[] { 1, 2, 3, 4, 5 };
 
-            var epsilons = new double[] { Math.Pow(10, -15) };
+            var epsilons = new double[] { Math.Pow(10, -5) };
             var gamas = new double[] { 0.9 };
             var ms = new int[] { 3 };
 
             using (var sw = new StreamWriter($"resultado_{ambiente}_{DateTime.Now.Ticks.ToString()}.csv", false))
             {
-                sw.WriteLine("algoritmo;gama;epsilon;m;totalIterations;optimizationIterations;tempo");
+                sw.WriteLine("algoritmo;gama;epsilon;m;totalIterations;tempo");
 
                 foreach (var gama in gamas)
                 {
@@ -108,12 +108,11 @@ namespace Planejamento
                         matrizTransicao,
                         gama);
 
-                    Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+                    Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                    sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+                    sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo}");
 
-                    if (imprimir)
-                        Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+                    Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
                     Console.WriteLine();
 
@@ -127,12 +126,11 @@ namespace Planejamento
                             gama,
                             epsilon);
 
-                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                        sw.WriteLine($"vi;{gama};{epsilon};-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+                        sw.WriteLine($"vi;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo}");
 
-                        if (imprimir)
-                            Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+                        Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
                         Console.WriteLine();
 
@@ -144,12 +142,11 @@ namespace Planejamento
                             gama,
                             epsilon);
 
-                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+                        Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                        sw.WriteLine($"ps;{gama};{epsilon};-;{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+                        sw.WriteLine($"ps;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo}");
 
-                        if (imprimir)
-                            Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+                        Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
                         Console.WriteLine();
 
@@ -164,36 +161,17 @@ namespace Planejamento
                                 epsilon,
                                 m);
 
-                            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações, sendo {retorno.optimizationIterations} iterações de otimização");
+                            Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                            sw.WriteLine($"mpi;{gama};{epsilon};{m};{retorno.totalIterations};{retorno.optimizationIterations};{retorno.tempo}");
+                            sw.WriteLine($"mpi;{gama};{epsilon};{m};{retorno.totalIterations};{retorno.tempo}");
 
-                            if (imprimir)
-                                Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
+                            Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
                             Console.WriteLine();
                         }
                     }
                 }
             }
-        }
-
-        private static string GetActionName(int[] actionsIndex)
-        {
-            return string.Join(",",
-                actionsIndex.Select(i =>
-                {
-                    switch (i)
-                    {
-                        case 0: return "Norte";
-                        case 1: return "Sul";
-                        case 2: return "Leste";
-                        case 3: return "Oeste";
-                        case 4: return "Abaixo";
-                        case 5: return "Acima";
-                        default: return "Inválido";
-                    }
-                }));
         }
 
         private static string GetActionSymbol(int[] pi)

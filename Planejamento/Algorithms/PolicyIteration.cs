@@ -21,7 +21,6 @@ namespace Planejamento.Algoritmos
             double[] vAux;
 
             long totalIterations = 0;
-            long optimizationIterations = 0;
             double probabilidade;
             bool mudou;
             var valoresAcoes = new double[qtdeAcoes];
@@ -74,8 +73,6 @@ namespace Planejamento.Algoritmos
                     pi[s] = piLinha[s];
                 }
 
-                optimizationIterations++;
-
                 if (!mudou)
                     break;
             }
@@ -85,7 +82,6 @@ namespace Planejamento.Algoritmos
             return new
             {
                 totalIterations,
-                optimizationIterations,
                 pi,
                 vPi,
                 tempo = sw.Elapsed.ToString()
