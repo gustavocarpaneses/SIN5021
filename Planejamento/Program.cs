@@ -18,21 +18,25 @@ namespace Planejamento
         {
             try
             {
+                var problema = "ambiente1";
+
+                if (args.Length > 0)
+                    problema = args[0].ToLower();
+
                 Console.OutputEncoding = Encoding.UTF8;
+                Console.WriteLine($"Executando algoritmos para o problema: {problema}");
 
                 var relatorioBasePath = "../../../Problems/Relatorio1";
 
-
-                //ProblemaAmbiente1(relatorioBasePath);
-
-                ProblemaAmbiente2(relatorioBasePath);
-
-                //ProblemaAmbiente3(relatorioBasePath);
-
-                //ProblemaLinhaDetLinhaProb();
-
-                //ProblemaRio();
-
+                switch (problema)
+                {
+                    case "ambiente1": ProblemaAmbiente1(relatorioBasePath); break;
+                    case "ambiente2": ProblemaAmbiente2(relatorioBasePath); break;
+                    case "ambiente3": ProblemaAmbiente3(relatorioBasePath); break;
+                    case "linhadetprob": ProblemaLinhaDetLinhaProb(); break;
+                    case "rio": ProblemaRio(); break;
+                }
+                
                 Console.ReadLine();
             }
             catch (Exception ex)
@@ -88,13 +92,13 @@ namespace Planejamento
 
         private static void ExecutarAlgoritmos(string ambiente, double[] matrizRecompensa, IList<double[][]> matrizTransicao, int largura, int altura, int qtdePisos)
         {
-            //var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5) };
-            //var gamas = new double[] { 1.0, 0.99, 0.9, 0.8, 0.5 };
-            //var ms = new int[] { 1, 2, 3, 4, 5 };
+            var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5) };
+            var gamas = new double[] { 1.0, 0.99, 0.9, 0.8, 0.5 };
+            var ms = new int[] { 1, 2, 3, 4, 5 };
 
-            var epsilons = new double[] { Math.Pow(10, -5) };
-            var gamas = new double[] { 0.9 };
-            var ms = new int[] { 3 };
+            //var epsilons = new double[] { Math.Pow(10, -5) };
+            //var gamas = new double[] { 0.9 };
+            //var ms = new int[] { 3 };
 
             using (var sw = new StreamWriter($"resultado_{ambiente}_{DateTime.Now.Ticks.ToString()}.csv", false))
             {
@@ -110,7 +114,7 @@ namespace Planejamento
                         gama);
 
                     Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
-                    
+
                     sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo}");
 
                     Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
@@ -204,7 +208,9 @@ namespace Planejamento
                 Console.WriteLine($"Piso {p + 1}");
 
                 Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(new string(' ', largura * 2 + 1));
+                Console.Write(new string(' ', largura * 2 + 1));
+                Console.ResetColor();
+                Console.Write(Environment.NewLine);
 
                 for (int i = 0; i < altura; i++)
                 {
@@ -234,11 +240,14 @@ namespace Planejamento
                         }
                     }
 
+                    Console.ResetColor();
                     Console.Write(Environment.NewLine);
                 }
 
                 Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(new string(' ', largura * 2 + 1));
+                Console.Write(new string(' ', largura * 2 + 1));
+                Console.ResetColor();
+                Console.Write(Environment.NewLine);
                 Console.WriteLine();
             }
 
