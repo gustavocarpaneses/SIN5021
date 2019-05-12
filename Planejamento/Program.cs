@@ -248,7 +248,7 @@ namespace Planejamento
                 Console.Write(new string(' ', largura * 2 + 1));
                 Console.ResetColor();
                 Console.Write(Environment.NewLine);
-                Console.WriteLine();
+                Console.WriteLine(); 
             }
 
             Console.ResetColor();
