@@ -78,9 +78,6 @@ namespace Planejamento.Algoritmos
 
                 if (maxDif < epsilon)
                     break;
-
-                Console.SetCursorPosition(0, Console.CursorTop);
-                Console.Write(totalIterations);
             }
 
             sw.Stop();
@@ -92,6 +89,7 @@ namespace Planejamento.Algoritmos
                 totalIterations,
                 pi,
                 vPi = vAtual,
+                estadosIndecisos = pi.Count(p => p.Length > 4),
                 tempo = sw.Elapsed.ToString()
             };
         }

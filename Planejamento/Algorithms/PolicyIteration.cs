@@ -76,13 +76,10 @@ namespace Planejamento.Algoritmos
 
                 if (!mudou)
                     break;
-
-                Console.SetCursorPosition(0, Console.CursorTop);
-                Console.Write(totalIterations);
             }
 
             sw.Stop();
-
+            
             Console.SetCursorPosition(0, Console.CursorTop);
 
             return new
@@ -90,6 +87,7 @@ namespace Planejamento.Algoritmos
                 totalIterations,
                 pi,
                 vPi,
+                estadosIndecisos = pi.Count(p => p.Length > 4),
                 tempo = sw.Elapsed.ToString()
             };
         }

@@ -18,7 +18,7 @@ namespace Planejamento
         {
             try
             {
-                var problema = "ambiente1";
+                var problema = "ambiente3";
 
                 if (args.Length > 0)
                     problema = args[0].ToLower();
@@ -92,17 +92,17 @@ namespace Planejamento
 
         private static void ExecutarAlgoritmos(string ambiente, double[] matrizRecompensa, IList<double[][]> matrizTransicao, int largura, int altura, int qtdePisos)
         {
-            var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5) };
+            var epsilons = new double[] { Math.Pow(10, -20), Math.Pow(10, -15), Math.Pow(10, -10), Math.Pow(10, -5), Math.Pow(10, -1) };
             var gamas = new double[] { 1.0, 0.99, 0.9, 0.8, 0.5 };
-            var ms = new int[] { 1, 2, 3, 4, 5 };
+            var ms = new int[] { 1, 2, 3 };
 
             //var epsilons = new double[] { Math.Pow(10, -5) };
             //var gamas = new double[] { 0.9 };
-            //var ms = new int[] { 3 };
+            //var ms = new int[] { 1 };
 
             using (var sw = new StreamWriter($"resultado_{ambiente}_{DateTime.Now.Ticks.ToString()}.csv", false))
             {
-                sw.WriteLine("algoritmo;gama;epsilon;m;totalIterations;tempo");
+                sw.WriteLine("algoritmo;gama;epsilon;m;totalIterations;tempo;estadosIndecisos");
 
                 foreach (var gama in gamas)
                 {
@@ -115,7 +115,7 @@ namespace Planejamento
 
                     Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                    sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo}");
+                    sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo};{retorno.estadosIndecisos}");
 
                     Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
@@ -133,7 +133,7 @@ namespace Planejamento
 
                         Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                        sw.WriteLine($"vi;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo}");
+                        sw.WriteLine($"vi;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo};{retorno.estadosIndecisos}");
 
                         Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
@@ -149,7 +149,7 @@ namespace Planejamento
 
                         Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                        sw.WriteLine($"ps;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo}");
+                        sw.WriteLine($"ps;{gama};{epsilon};-;{retorno.totalIterations};{retorno.tempo};{retorno.estadosIndecisos}");
 
                         Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
@@ -168,7 +168,7 @@ namespace Planejamento
 
                             Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
 
-                            sw.WriteLine($"mpi;{gama};{epsilon};{m};{retorno.totalIterations};{retorno.tempo}");
+                            sw.WriteLine($"mpi;{gama};{epsilon};{m};{retorno.totalIterations};{retorno.tempo};{retorno.estadosIndecisos}");
 
                             Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
 
@@ -181,6 +181,9 @@ namespace Planejamento
 
         private static string GetActionSymbol(int[] pi)
         {
+            if (pi.Length > 4)
+                return "?";
+
             var actionIndex = pi.First();
 
             switch (actionIndex)
