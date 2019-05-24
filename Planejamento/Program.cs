@@ -18,7 +18,7 @@ namespace Planejamento
         {
             try
             {
-                var problema = "ambiente3";
+                var problema = "ambiente2";
 
                 if (args.Length > 0)
                     problema = args[0].ToLower();
@@ -114,7 +114,7 @@ namespace Planejamento
                         gama);
 
                     Console.WriteLine($"Convergiu em {retorno.tempo} num total de {retorno.totalIterations} iterações");
-
+                    
                     sw.WriteLine($"pi;{gama};-;-;{retorno.totalIterations};{retorno.tempo};{retorno.estadosIndecisos}");
 
                     Print(largura, altura, qtdePisos, retorno.pi, retorno.vPi);
@@ -181,7 +181,7 @@ namespace Planejamento
 
         private static string GetActionSymbol(int[] pi)
         {
-            if (pi.Length > 4)
+            if (pi.Length >= 4)
                 return "?";
 
             var actionIndex = pi.First();

@@ -68,7 +68,7 @@ namespace Planejamento.Algoritmos
                 totalIterations,
                 pi,
                 vPi = vAtual,
-                estadosIndecisos = pi.Count(p => p.Length > 4),
+                estadosIndecisos = pi.Count(p => p.Length >= 4),
                 tempo = sw.Elapsed.ToString()
             };
         }
